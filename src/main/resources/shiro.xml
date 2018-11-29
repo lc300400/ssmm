@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+   <!-- 配置shiro -->
+   <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+       <!-- 指定Shiro验证用户登录的类为自定义的Realm（若有多个Realm，可用[realms]属性代替） -->
+       <property name="realm">
+           <bean class="com.jjxc.shiro.MyShiroRealm"/>
+       </property>
+       <property name="cacheManager" ref="cacheManager" /> 
+    </bean>
+
+	<!-- Shiro Filter--> 
+	<bean id="simplePermFilter" class="org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter" />
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean ">
+		<!-- Shiro的核心安全接口，这个属性是必须的 -->
+	    <property name="securityManager" ref="securityManager"/>
+	
+		<!-- 要求登录时的链接（可根据项目的URL进行替换），非必须的属性，默认会找Web工程根目录下的[/login.jsp] -->
+	    <property name="loginUrl" value="/login.jsp"/>
+	 	<!-- 登录成功后要跳转的连接（本例中此属性用不到，因为登录成功后的处理逻辑已在LoginController中硬编码为main.jsp） -->
+	    <property name="successUrl" value="/index.jsp"/>
+	 	<!--用户访问未授权的资源时，所显示的连接 -->
+	    <!-- <property name="unauthorizedUrl" value="/error.jsp"/>-->
+	    <!--
+	        anon：它对应的过滤器里面是空的，什么都没做，另外.do和.jsp后面的*表示参数，比方说[login.jsp?main]这种
+	        authc：该过滤器下的页面必须验证后才能访问，它是内置的org.apache.shiro.web.filter.authc.FormAuthenticationFilter
+	        注意：对于相似的资源，需要将anon的设置放在authc前面，anon才会生效，因为Shiro是从上往下匹配URL的，匹配成功便不再匹配了
+	    --> 
+	     <property name="filterChainDefinitions">
+	        <value>
+	            /login.jsp = anon
+	            /lib/** = anon
+	            /common/** = anon
+	            /resources/** = anon 
+	            
+	            /login/checkLogin.json = anon  
+	            /logout.json = anon  
+	            /pages/** = anon  
+	            /** = authc 
+	        </value>
+	    </property>
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	<!--自定义拦截器，目前用不到，后面再说可以不写-->
+	<!--<bean id="anyRoles" class="com.xx.shiro.CustomRolesAuthorizationFilter" />  -->
+	
+	<!-- 用户授权信息Cache -->  
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />  
+
+    <!-- AOP式方法级权限检查 -->  
+    <!-- <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"  
+        depends-on="lifecycleBeanPostProcessor">  
+        <property name="proxyTargetClass" value="true" />  
+    </bean> --> 
+     
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
+        <property name="securityManager" ref="securityManager" />  
+    </bean>  
+</beans>

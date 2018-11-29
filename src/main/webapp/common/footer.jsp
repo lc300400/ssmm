@@ -1,0 +1,13 @@
+<%@ page pageEncoding="UTF-8"%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/datatables-1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/datatables-1.10.15/js/dataTables_zh.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/layer-3.0.3/layer.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/layui-2.4.3/layui.all.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-validation-1.16.0/jquery.validate.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-validation-1.16.0/jquery.validate.ext.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-validation-1.16.0/messages_zh.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-serializeJSON/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-form/jquery.form.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/h-ui.admin/js/H-ui.admin.js"></script>

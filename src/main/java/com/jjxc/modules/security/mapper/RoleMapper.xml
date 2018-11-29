@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.jjxc.modules.security.dao.RoleDao" > 
+   
+    <resultMap id="BaseRoleResultMaps" type="Role">  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="description" property="description" jdbcType="VARCHAR" />  
+    </resultMap>  
+    <resultMap type="Role" id="Role-AuthorityMap" extends="BaseRoleResultMaps">
+		<collection property="authorityList" javaType="ArrayList"
+			ofType="com.jjxc.modules.security.entity.Authority" >
+			<id column="a_id" property="id" />  
+	        <result column="a_name" property="name" />  
+	        <result column="a_description" property="description"/>  
+		</collection>
+	</resultMap>
+
+    <sql id="selectAll">  
+        select r.id, r.name, r.description from tsys_role r  
+    </sql>  
+  
+    <!-- 根据ID查询-->  
+    <select id="queryById" resultMap="BaseRoleResultMaps" parameterType="java.lang.Integer">  
+       <include refid="selectAll" /> 
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="findPage" resultMap="BaseRoleResultMaps" parameterType="com.jjxc.commons.Page">  
+	    <include refid="selectAll" />
+	    <where>
+	    	<if test="params.name != null">
+	    		 name like "%"#{params.name}"%"
+	    	</if>
+	    </where>
+	</select>  
+    
+    <!-- 查询所有-->  
+    <select id="queryAll" resultMap="BaseRoleResultMaps">  
+        <include refid="selectAll" />  
+    </select>
+    
+    <!-- 根据名字查询-->  
+    <select id="queryByName" resultMap="BaseRoleResultMaps">  
+        <include refid="selectAll" />  where name =  #{ name }
+    </select>
+    
+    <!-- 插入角色信息 -->  
+    <insert id="insertRole" parameterType="Role" useGeneratedKeys="true" keyProperty="id">  
+    		
+        insert into tsys_role    
+        <trim prefix="(" suffix=")" suffixOverrides="," >    
+          <if test="name != null" >    
+            name, 
+          </if>    
+          <if test="description != null" >    
+            description ,   
+          </if>    
+        </trim>    
+        <trim prefix="values (" suffix=")" suffixOverrides="," >    
+          <if test="name != null" >    
+            #{name,jdbcType=VARCHAR} ,   
+          </if>    
+          <if test="description != null" >    
+            #{description,jdbcType=VARCHAR}, 
+          </if>    
+        </trim>     
+    </insert>  
+    
+    <!--  role-authority关联表插入  -->
+    <insert id="saveRole_Authority" parameterType="map">
+			insert into tsys_role_authority(
+				role_id,authority_id
+				) values 
+			<foreach collection="authorityList" item="authority_id" separator="," >
+				(#{role_id},#{authority_id})
+			</foreach>
+	</insert>
+    
+    <!-- 更新信息 -->  
+    <update id="updateById" parameterType="Role" >    
+        update tsys_role    
+        <set>    
+          <if test="name != null" >    
+            name = #{name,jdbcType=VARCHAR},    
+          </if>    
+          <if test="description != null" >    
+            description = #{description,jdbcType=VARCHAR},    
+          </if>    
+        </set>    
+        where id = #{id,jdbcType=INTEGER}   
+    </update>  
+    
+    <!--  根据角色ID查询角色信息（包括权限信息：authorityLis） -->
+   	<select id="findRole_AuthorityById" resultMap="Role-AuthorityMap">
+		select r.id, r.name, r.description,
+				tr.id a_id, tr.name a_name, tr.description a_description
+		from tsys_role r 
+        left join tsys_role_authority tra on r.id = tra.role_id  
+        left join tsys_authority tr on tr.id = tra.authority_id  
+        where r.id = #{id}
+	</select>
+    
+    
+    <!--  删除信息  -->
+	<delete id="deleteRoleById">
+		DELETE FROM tsys_role WHERE id=#{ id };
+	</delete>
+    
+    <!--  删除角色/权限信息  -->
+	<delete id="deleteRoleAuthorityByRoleId">
+		DELETE FROM tsys_role_authority WHERE role_id=#{ roleid };
+	</delete>
+    
+    
+    
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.jjxc.modules.security.dao.UserDao">    
+    <resultMap id="BaseResultMap" type="user">  
+        <result column="id" property="id" jdbcType="INTEGER" />  
+        <result column="username" property="username" jdbcType="VARCHAR" />  
+        <result column="password" property="password" jdbcType="VARCHAR" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />  
+        <result column="email" property="email" jdbcType="VARCHAR" />  
+        <result column="enable" property="enable" jdbcType="CHAR" />
+        <association property="dept" javaType="dept" column="dept_id" 
+        	select="com.jjxc.modules.security.dao.DeptDao.queryById"/>
+        <!-- 递归查询 -->
+        <collection property="roleList" ofType="role" 
+         	column="id" select="queryByUserId"></collection>
+    </resultMap>  
+    
+  	<resultMap id="BaseRoleResultMaps" type="role">  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="description" property="description" jdbcType="VARCHAR" />  
+    </resultMap>
+    
+    
+    <sql id="Base_Column_List">  
+        id,username,password,name,mobile,email,enable
+    </sql>  
+  
+    <!-- 根据ID查询用户 -->  
+    <select id="queryById" resultMap="BaseResultMap"  
+        parameterType="java.lang.Integer">  
+        select * from tsys_user where 
+           id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <!-- 根据用户ID查询用户角色信息 -->
+    <select id="queryByUserId" resultMap="BaseRoleResultMaps"
+    	parameterType="java.lang.Integer">
+    	select * from tsys_role where id in(select role_id from tsys_user_role where user_id=#{id})
+    </select>
+    
+    <!-- 根据登陆账户查询用户信息 -->  
+    <select id="queryByUsername" resultMap="BaseResultMap"  
+        parameterType="java.lang.String">  
+        select * from tsys_user where 
+            username = #{username,jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 根据部门编号查询用户角色信息 -->
+    <select id="queryByDeptId" resultMap="BaseResultMap"  
+        parameterType="java.lang.Integer">  
+        select * from tsys_user where 
+           dept_id = #{deptId,jdbcType=INTEGER}
+    </select>
+    
+    <!-- 插入用户 -->  
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true"
+		keyProperty="id">  
+		
+        insert into tsys_user    
+        <trim prefix="(" suffix=")" suffixOverrides="," >    
+          <if test="id != null" >    
+            id,    
+          </if>    
+          <if test="username != null" >    
+            username,    
+          </if>  
+          <if test="password != null" >    
+            password,    
+          </if>   
+          <if test="name != null" >    
+            name,    
+          </if>    
+          <if test="mobile != null" >    
+            mobile,    
+          </if>    
+          <if test="email != null" >    
+            email,    
+          </if>    
+          <if test="enable != null" >    
+            enable,    
+          </if>    
+          <if test="dept.id != null" >    
+            dept_id,    
+          </if>    
+        </trim>    
+        <trim prefix="values (" suffix=")" suffixOverrides="," >    
+          <if test="id != null" >    
+            #{id,jdbcType=INTEGER},    
+          </if>    
+          <if test="username != null" >    
+            #{username,jdbcType=VARCHAR},    
+          </if>    
+          <if test="password != null" >    
+            #{password,jdbcType=VARCHAR},    
+          </if>    
+          <if test="name != null" >    
+            #{name,jdbcType=VARCHAR},    
+          </if>    
+          <if test="mobile != null" >    
+            #{mobile,jdbcType=VARCHAR},    
+          </if>    
+          <if test="email != null" >    
+            #{email,jdbcType=VARCHAR},    
+          </if>    
+          <if test="enable != null" >    
+            #{enable,jdbcType=CHAR},    
+          </if>    
+          <if test="dept.id != null" >    
+            #{dept.id,jdbcType=INTEGER},    
+          </if>    
+        </trim>     
+    </insert>  
+  
+    <!-- 更新用户 -->  
+    <update id="updateUser" parameterType="user" >    
+        update tsys_user    
+        <set>    
+          <if test="name != null" >    
+            name = #{name,jdbcType=VARCHAR},    
+          </if>    
+          <if test="password != null" >    
+            password = #{password,jdbcType=VARCHAR},    
+          </if>    
+          <if test="mobile != null" >    
+            mobile = #{mobile,jdbcType=VARCHAR},    
+          </if>    
+          <if test="email != null" >    
+            email = #{email,jdbcType=VARCHAR},    
+          </if>    
+          <if test="enable != null" >    
+            enable = #{enable,jdbcType=CHAR},    
+          </if>    
+          <if test="dept.id != null" >    
+            dept_id = #{dept.id,jdbcType=INTEGER},    
+          </if>    
+        </set>    
+        where id = #{id,jdbcType=INTEGER}   
+    </update>  
+    
+    <!-- 分页查询用户信息--> 
+    <select id="findPage" resultMap="BaseResultMap" 
+    	parameterType="com.jjxc.commons.Page">  
+	    select user.* from tsys_user user,tsys_dept dept 
+	    where user.dept_id = dept.id
+	    	<if test="params.all == 'yes'">
+	    		and dept.number like #{params.branchNO}"%"
+	    	</if>
+	    	<if test="params.all == 'no'">
+	    		and dept.number like #{params.branchNO}
+	    	</if>
+	    	<if test="params.username !=null">
+	    		and (user.username like "%"#{params.username}"%" 
+	    		or user.name like "%"#{params.username}"%")
+	    	</if>
+	    	<if test="params.enable !=null">
+	    		and user.enable = #{params.enable}
+	    	</if>
+	</select> 
+	
+	<!--  user-role中间表信息插入  -->
+    <insert id="saveUserRole" parameterType="map">
+			insert into tsys_user_role(
+				user_id,role_id
+				) values 
+			<foreach collection="roleList" item="roleId" separator="," >
+				(#{userId},#{roleId})
+			</foreach>
+	</insert>
+	
+	<!--  删除用户角色表信息  -->
+	<delete id="deleteUserRoleByUserId">
+		delete from tsys_user_role where user_id=#{userId};
+	</delete>
+	
+</mapper>

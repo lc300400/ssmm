@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.jjxc.modules.security.dao.AuthorityDao" > 
+   
+    <resultMap id="BaseAuthorityResultMaps" type="Authority">  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="description" property="description" jdbcType="VARCHAR" />  
+    </resultMap>  
+    <resultMap type="Authority" id="Authority_ResourceMap" extends="BaseAuthorityResultMaps">
+		<collection property="resourceList" javaType="ArrayList"
+			ofType="com.jjxc.modules.security.entity.Resource" >
+			<id column="rid" property="id" />  
+	        <result column="rtype" property="type" />  
+	        <result column="rname" property="name" />  
+	        <result column="rurl" property="url" />  
+	        <result column="rmenuId" property="menuId" />  
+	        <result column="ricon" property="icon"/>  
+	        <result column="rdescription" property="description"/>  
+	        <result column="rseq" property="seq"/>  
+	        <result column="rpid" property="pid"/>
+		</collection>
+	</resultMap>
+    <resultMap type="Authority" id="Authority_RoleMap" extends="BaseAuthorityResultMaps">
+		<collection property="roleList" javaType="ArrayList"
+			ofType="com.jjxc.modules.security.entity.Role" >
+			<id column="role_id" property="id" />  
+	        <result column="role_name" property="name" />  
+	        <result column="role_description" property="description"/>  
+		</collection>
+	</resultMap>
+
+	<!-- 根据ResourceId查询资源 -->
+	<select id="findAuthorityByResourceId" resultMap="BaseAuthorityResultMaps">
+		select * from tsys_authority where id 
+		in (select authority_id from tsys_authority_resource where resource_id=#{id} )  
+	</select>
+  
+    <sql id="selectAll">  
+        select r.id, r.name, r.description from tsys_authority r  
+    </sql>  
+  
+    <!-- 根据ID查询权限信息-->  
+    <select id="queryById" resultMap="BaseAuthorityResultMaps"  
+        parameterType="java.lang.Integer">  
+       <include refid="selectAll" /> 
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    
+    <!-- 分页查询权限列表 -->
+    <select id="findPage" resultMap="BaseAuthorityResultMaps" 
+    	parameterType="com.jjxc.commons.Page">  
+	    <include refid="selectAll" />
+	    <where>
+	    	<if test="params.name != null">
+	    		 name like "%"#{params.name}"%"
+	    	</if>
+	    </where>
+	</select>  
+    
+    
+    <!-- 查询所有权限信息-->  
+    <select id="queryAll" resultMap="BaseAuthorityResultMaps">  
+        <include refid="selectAll" />  
+    </select>
+    
+    <!-- 根据名字查询-->  
+    <select id="queryByName" resultMap="BaseAuthorityResultMaps">  
+        <include refid="selectAll" />  where name = #{ name }
+    </select>
+    
+    <!-- 插入权限信息 -->  
+    <insert id="insertAuthority" parameterType="com.jjxc.modules.security.entity.Authority" 
+    		useGeneratedKeys="true" keyProperty="id">  
+    		
+        insert into tsys_authority    
+        <trim prefix="(" suffix=")" suffixOverrides="," >    
+          <if test="name != null" >    
+            name, 
+          </if>    
+          <if test="description != null" >    
+            description ,   
+          </if>    
+        </trim>    
+        <trim prefix="values (" suffix=")" suffixOverrides="," >    
+          <if test="name != null" >    
+            #{name,jdbcType=VARCHAR} ,   
+          </if>    
+          <if test="description != null" >    
+            #{description,jdbcType=VARCHAR}, 
+          </if>    
+        </trim>     
+    </insert>  
+    
+    <!--  根据权限ID插入资源-权限关系数据  -->
+    <insert id="saveAuthority_Resource" parameterType="map">
+			insert into tsys_authority_resource(
+				authority_id,resource_id
+				) values 
+			<foreach collection="resourceList" item="resource_id" separator="," >
+				(#{authority_id},#{resource_id})
+			</foreach>
+	</insert>
+    
+    <!-- 更新权限信息 -->  
+    <update id="updateById" parameterType="com.jjxc.modules.security.entity.Authority" >    
+        update tsys_authority    
+        <set>    
+          <if test="name != null" >    
+            name = #{name,jdbcType=VARCHAR},    
+          </if>    
+          <if test="description != null" >    
+            description = #{description,jdbcType=VARCHAR},    
+          </if>    
+        </set>    
+        where id = #{id,jdbcType=INTEGER}   
+    </update>  
+    
+    <!--  根据权限ID查询权限-资源信息  -->
+   	<select id="findAuthority_ResourceById" resultMap="Authority_ResourceMap">
+		select r.id, r.name, r.description,
+		tr.id rid, tr.type rtype, r.name rname, tr.url rurl, 
+		tr.menuId rmenuId,tr.icon ricon, tr.description rdescription, 
+		tr.seq rseq, tr.pid rpid 
+		from tsys_authority r 
+        left join tsys_authority_resource tar on r.id=tar.authority_id  
+        left join tsys_resource tr on tr.id=tar.resource_id  
+        where r.id = #{id}
+	</select>
+	
+	<!--  根据权限ID查询权限-角色信息  -->
+   	<select id="findAuthority_RoleById" resultMap="Authority_RoleMap">
+		select r.id, r.name, r.description,
+				tr.id role_id, tr.name role_name, tr.description role_description 
+		from tsys_authority r 
+        left join tsys_role_authority tra on r.id=tra.authority_id  
+        left join tsys_role tr on tr.id=tra.role_id  
+        where r.id = #{id}
+	</select>
+    
+    
+    <!--  删除权限信息  -->
+	<delete id="deleteAuthorityById">
+		DELETE FROM tsys_authority WHERE id=#{ id };
+	</delete>
+    
+    <!--  删除权限资源信息  -->
+	<delete id="deleteAuthorityResourceByAuthorityId">
+		DELETE FROM tsys_authority_resource WHERE authority_id=#{ authorityid };
+	</delete>
+    
+</mapper>

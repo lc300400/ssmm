@@ -1,0 +1,262 @@
+@charset "utf-8";
+body,th,td,button,input,select,textarea {font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,"WenQuanYi Micro Hei",Verdana,sans-serif,"\5B8B\4F53";font-size:14px;color:#333;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a { color:#333 }
+a:hover, a:focus { color:#06c; text-decoration:none }
+label { font-weight:normal; } 
+/* 表格 */
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td{vertical-align:middle}
+.table > thead > tr > th{text-align:center;border-bottom-width:1px}
+/* 表单 */
+.form-horizontal .control-label {padding-top:7px;margin-bottom:0;text-align:right;}
+
+/* 按钮 */
+/*默认——灰色	通常用于取消*/
+.btn-default{background-color:#e6e6e6;border-color:#e6e6e6}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active{color:#333;background-color:#c7c7c7;border-color:#c7c7c7}
+/*主要——主色	通常用于确定、提交、购买、支付等*/
+.btn-primary{color:#fff;background-color:#5a98de; border-color:#5a98de}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active{color:#fff;background-color:#0a6999;border-color:#0a6999}
+/*  对齐
+	Name:			style_text-align
+	Example:		class="text-l|text-r|text-c|va-t|va-m|va-b"
+	Explain:		.text-水平对齐 （.text-l左对齐|.text-r右对齐|.text-c居中对齐）
+					.va-上下对齐 （.va-t 居上对齐|.va-m 居中对齐|.va-b 居下对齐）
+*/
+.text-l{text-align:left}.text-r{text-align:right}.text-c{text-align:center}
+.va *{vertical-align:sub!important;*vertical-align:middle!important;_vertical-align:middle!important}
+.va-t{vertical-align:top!important}.va-m{vertical-align:middle!important}.va-b{vertical-align:bottom!important}
+/*  线条
+	Name:			style_line
+	Example:		class="line"
+*/
+.line{font-size:0; line-height:0; border-top: solid 1px #eee; float: none}
+/*  外边距
+	Name:			style_margin
+	Example:		class="mt-5|mt-10..."
+	Explain:		.mt表示上边距|.mb表示下边距|.ml表示左边距|.mr表示右边距
+*/
+.mt-5{margin-top:5px}.mt-10{margin-top:10px}.mt-15{margin-top:15px}.mt-20{margin-top:20px}.mt-25{margin-top:25px}.mt-30{margin-top:30px}.mt-35{margin-top:35px}.mt-40{margin-top:40px}.mt-50{margin-top:50px}
+.mb-5{margin-bottom:5px}.mb-10{margin-bottom:10px}.mb-15{margin-bottom:15px}.mb-20{margin-bottom:20px}.mb-30{margin-bottom:30px}.mb-40{margin-bottom:40px}.mb-50{margin-bottom:50px}
+.ml-5{margin-left:5px}.ml-10{margin-left:10px}.ml-15{margin-left:15px}.ml-20{margin-left:20px}.ml-30{margin-left:30px}.ml-40{margin-left:40px}.ml-50{margin-left:50px}
+.mr-5{margin-right:5px}.mr-10{margin-right:10px}.mr-15{margin-right:15px}.mr-20{margin-right:20px}.mr-30{margin-right:30px}.mr-40{margin-right:40px}.mr-50{margin-right:50px}
+/*  内填充
+	Name:			style_padding
+	Example:		class="pt-5|pt-10|……"
+	Explain:		.pt表示上填充|.pb表示下填充|.pl表示左填充|.pr表示右填充
+*/
+.pt-5{padding-top:5px}.pt-10{padding-top:10px}.pt-15{padding-top:15px}.pt-20{padding-top:20px}
+.pb-5{padding-bottom:5px}.pb-10{padding-bottom:10px}.pb-15{padding-bottom:15px}.pb-20{padding-bottom:20px}.pb-30{padding-bottom:30px}
+.pl-5{padding-left:5px}.pl-10{padding-left:10px}.pl-15{padding-left:15px}.pl-20{padding-left:20px}.pl-30{padding-left:30px}
+.pr-5{padding-right:5px}.pr-10{padding-right:10px}.pr-15{padding-right:15px}.pr-20{padding-right:20px}
+.pd-5{padding:5px}.pd-10{padding:10px}.pd-15{padding:15px}.pd-20{padding:20px}.pd-30{padding:30px}.pd-40{padding:40px}
+/*  文字颜色
+	Name:			style_color
+	Example:		class="c-primary|c-sub|c-success|c-danger|c-warning|c-333|c-666|c-999|c-red|c-green|c-blue|c-white|c-black|c-orange"
+	Explain:		主要颜色|次主色|强调色—成功|强调色—危险|强调色—警告色|强调色—错误色|次主色—浅黑|辅助色—灰色|标准色—红色|标准色—绿色|标准色—蓝色|标准色—白色|标准色—黑色|标准色—橙色
+*/
+/*主要颜色*/
+.c-primary,.c-primary a,a.c-primary{color:#5a98de}
+.c-primary a:hover,a.c-primary:hover{color:#5a98de}
+/*次主色*/
+.c-secondary,.c-secondary a,a.c-secondary{color:#555}
+.c-secondary a:hover,a.c-secondary:hover{color:#555}
+/*强调色—成功*/
+.c-success,.c-success a,a.c-success{color:#5eb95e}
+.c-success a:hover,a.c-success:hover{color:#5eb95e}
+/*强调色—危险*/
+.c-danger,.c-danger a,a.c-danger{color:#dd514c}
+.c-danger a:hover,a.c-danger:hover{color:#dd514c}
+/*强调色—警告*/
+.c-warning,.c-warning a,a.c-warning{color:#f37b1d}
+.c-warning a:hover,a.c-warning:hover{color:#f37b1d}
+/*强调色—错误*/
+.c-error,.c-error a,a.c-error{color:#c00}
+.c-error a:hover,a.c-error:hover{color:#c00}
+/*辅助色—浅黑*/
+.c-333,.c-333 a,a.c-333{color:#333}
+.c-333 a:hover,a.c-333:hover{color:#333}
+/*辅助色—灰色*/
+.c-666,.c-666 a,a.c-666{color:#666}
+.c-666 a:hover,a.c-666:hover{ color:#666}
+.c-999,.c-999 a,a.c-999{color:#999}
+.c-999 a:hover,a.c-999:hover{color:#999}
+/*标准色—红色*/
+.c-red,.c-red a,a.c-red{color:red}
+.c-red a:hover,a.c-red:hover{color:red}
+/*标准色—绿色*/
+.c-green,.c-green a,a.c-green{color:green}
+.c-red a:hover,a.c-red:hover{color:green}
+/*标准色—蓝色*/
+.c-blue,.c-blue a,a.c-blue{color:blue}
+.c-blue a:hover,a.c-blue:hover{color:blue}
+/*标准色—白色*/
+.c-white,.c-white a,a.c-white{color:white}
+.c-white a:hover,a.c-white:hover{color:white}
+/*标准色—黑色*/
+.c-black,.c-black a{color:black}
+.c-black a:hover,a.c-black:hover{color:black}
+/*标准色—橙色*/
+.c-orange,.c-orange a,a.c-orange{color:orange}
+.c-orange a:hover,a.c-orange:hover{color:orange}
+
+/*  背景颜色
+	Name:			style_background-color
+	Example:		class="bg-white"
+*/
+/*标准色—白色*/
+.bg-white,.bg-white[readonly] {background-color:white}
+
+/* 标号颜色 */
+/*默认*/
+.badge-default{background-color:#e6e6e6;color:#333}
+/*主要*/
+.badge-primary{background-color:#5a98de}
+/*主要*/
+.badge-secondary{background-color:#3bb4f2}
+/*成功*/
+.badge-success{background-color:#5eb95e}
+/*警告*/
+.badge-warning{background-color:#f37b1d}
+/*危险*/
+.badge-danger{background-color:#dd514c}
+
+
+/* 页面框架 */
+.Hui-header{position:absolute;top:0;right:0;left:0;height:50px;z-index:999;padding:0 15px;font-size:20px}
+.Hui-aside{position:absolute;top:90px;bottom:0;left:0;padding-top:5px;width:150px;z-index:99;overflow:auto;font-size:14px;background-color:rgba(52,86,147,0.98);_background-color:rgb(238,238,238);border-right:1px solid #e5e5e5}
+.Hui-article-box{position:absolute;top:115px;right:0;bottom:0;left:155px;overflow:auto;z-index:1;background-color:#fff;}
+.Hui-article{position:absolute;top:40px;bottom:0;left:0;right:0;overflow:auto;z-index:1}
+.Hui-aside,.Hui-article-box,.dislpayArrow{-moz-transition:all 0.2s ease 0s;-webkit-transition:all 0.2s ease 0s;-ms-transition:all 0.2s ease 0s;-o-transition:all 0.2s ease 0s;transition:all 0.2s ease 0s}
+.big-page .Hui-article-box,.big-page .dislpayArrow{left:0px}
+.big-page .Hui-aside{left:-200px}
+
+/* 导航条 */
+.navbar-wrapper .navbar { position:relative; z-index:1030; margin-bottom:0; border-bottom:none; background-color:#1E3A83}
+.navbar-wrapper .navbar-fixed-top { position:fixed; top:0; left:0; right:0; z-index:1030;}
+/* logo */
+.logo { height:50px; line-height:50px; margin-right:10px; float:left; display:inline-block; text-decoration:none; cursor:pointer; background-repeat:no-repeat; background-position:left center; background-size:auto 100% }
+.navbar-logo { font-size:16px }
+.navbar-logo:hover, .navbar-logo:focus { color:#fff; text-decoration:none }
+.navbar-version { font-size:12px; cursor:default }
+.navbar-userbar { position:absolute; top:0px; right:20px }
+.navbar-logo, .navbar-version, .navbar-userbar { color:#fff } /* logo及 用户信息文字颜色 */
+/* 导航 */
+.navbar-wrapper .nav { z-index:1; float:none }
+.nav > ul { font-size:0; line-height:0 }
+.nav > ul > li { position:relative; float:left }
+.nav > ul > li, .nav > ul > li > a { display:inline-block; text-align:center; line-height:50px; font-size:14px; color:#fff }
+.nav > ul > li > a { padding:0 20px }
+.nav > ul > li > a:hover{background-color:rgba(255,255,255,0.2);text-decoration:none;-webkit-transition:background-color 0.3s ease 0s;-moz-transition:background-color 0.3s ease 0s;-o-transition:background-color 0.3s ease 0s;-ms-transition:background-color 0.3s ease 0s;transition:background-color 0.3s ease 0s}
+.nav > ul > li > a.active{background-color:rgba(255,255,255,0.2);text-decoration:none;-webkit-transition:background-color 0.3s ease 0s;-moz-transition:background-color 0.3s ease 0s;-o-transition:background-color 0.3s ease 0s;-ms-transition:background-color 0.3s ease 0s;transition:background-color 0.3s ease 0s}
+.nav > ul > li.open > a,
+.nav > ul > li.open > a:hover,
+.nav > ul > li.open > a:focus { text-decoration:none; background-color:rgba(255,255,255,0.2) }
+.navbar-userbar > ul > li > a { padding:0 10px }
+.navbar-userbar .badge { position:absolute; left:20px; top:10px; font-size:12px; font-weight:normal; padding:1px 5px; }
+/* 下拉菜单 */
+.dropDown, .dropDown_A { display:inline-block }
+.dropDown > .dropDown-menu { display:none }
+/* 鼠标经过 */
+.dropDown.hover .dropDown_A,.dropDown.open .dropDown_A { text-decoration:none; background-color:rgba(255,255,255,0.2) }
+.menu { display:inline-block; padding:0; background-color:#fff; border:solid 1px #f2f2f2; border-top:none; -webkit-box-shadow:0 1px 2px rgba(0,0,0,0.1); box-shadow:0 1px 2px rgba(0,0,0,0.1); border-bottom-left-radius:4px; border-bottom-right-radius:4px; }
+.menu > li, .menu > li > a { line-height:1.8 }
+.menu > li > a { display:block; border-bottom:solid 1px #f2f2f2; padding:5px 20px; text-align:left; font-weight:normal; white-space:nowrap; vertical-align:top }
+.menu > li:last-child > a { border-bottom:none }
+.menu > li > a:hover,.menu > li > a:focus,.menu > li.open > a,.menu > li.open > a:hover { text-decoration:none; background-color:#fafafa; border-color:#f2f2f2 }
+.menu > li > a > i { width:14px;text-align:center }
+/* 打开菜单 */
+.dropDown.open { position:relative; z-index:990 }
+/* 默认左对齐 */
+.dropDown.open > .dropDown-menu {position:absolute;z-index:1000;display:inline-block;top:100%;left:-1px;min-width:100%;background-color:#fff;border:solid 1px #f2f2f2}
+/* 右对齐 */
+.dropDown.open.right > .dropDown-menu{right:-1px!important;left:auto!important}
+
+/* 左侧菜单 */
+.Hui-aside .menu_dropdown dl{margin-bottom:0}
+.Hui-aside .menu_dropdown dt{display:block;line-height:35px;padding-left:15px;cursor:pointer;position:relative;border-bottom:1px solid #e5e5e5;font-weight:normal;color:#333}
+.Hui-aside .menu_dropdown dt i{color:#a0a7b1}
+.Hui-aside .menu_dropdown dt i:first-child{width:20px;text-align:center}
+.Hui-aside .menu_dropdown dt:hover{color:#148cf1}
+.Hui-aside .menu_dropdown dt:hover i{color:#7e8795}
+.Hui-aside .menu_dropdown dt .menu_dropdown-arrow{position:absolute;line-height:35px;overflow:hidden;top:0;right:15px;transition-duration:0.3s;transition-property:all;color:#b6b7b8}
+.Hui-aside .menu_dropdown dd{display:none}
+.Hui-aside .menu_dropdown dt.selected .menu_dropdown-arrow{transform:rotate(180deg)}
+.Hui-aside .menu_dropdown dd.selected{display:block;margin-left:0}
+.Hui-aside .menu_dropdown ul{margin:0;padding:0}
+.Hui-aside .menu_dropdown li{line-height:35px;overflow:hidden;zoom:1}
+.Hui-aside .menu_dropdown li a{padding-left:15px;display:block;font-weight:bold;margin:0;color:#666;border-bottom:1px solid #e5e5e5}
+.Hui-aside .menu_dropdown li a i{font-weight:normal}
+.Hui-aside .menu_dropdown dd ul{padding:3px 8px}
+.Hui-aside .menu_dropdown dd li{line-height:32px}
+.Hui-aside .menu_dropdown dd li a{line-height:32px;padding-left:30px;border-bottom:none;font-weight:normal}
+.Hui-aside .menu_dropdown li a:hover{text-decoration:none;color:#148cf1;background-color:#fafafa}
+.Hui-aside .menu_dropdown li.current a,
+.Hui-aside .menu_dropdown li.current a:hover{color:#148cf1;background-color:rgba(255,255,255,0.2)}
+
+/* 最新添加 */
+.Hui-aside .menu_dropdown div:hover{background:white;color:red;}  
+.Hui-aside .menu_dropdown div span:hover{color:red;}
+.menu-div{width:100%;text-align:center;border-bottom:1px double #42639A;}
+.menu-span{color:white;size:16px;font-weight:bold;}
+.menu-div-hidden{position:fixed;margin-left:150px;margin-top:-85px;z-index:99999;padding-left:10px;padding-top:10px;padding-right:10px;
+	   	     	  width:150px;background-color:#F5F5F5;min-height:150px;border:1px ridge #F5F5F5; display:none}
+
+
+.Hui-aside .menu_dropdown dd li > dl dt{padding-left:30px;}
+.Hui-aside .menu_dropdown dd li > dl dt .menu_dropdown-arrow{right:2px;font-size:14px;}
+
+/* 左侧菜单收缩切换 */
+.dislpayArrow{position:absolute;top:0;bottom:0;left:200px;width:0px;height:100%;z-index:10}
+.dislpayArrow a{position:absolute;display:block;width:17px;height:61px;top:50%;margin-top:-30px;outline:none;background:url(../images/icon_arrow.png) no-repeat 0 0}
+.dislpayArrow a.open{background-position:0 -61px}
+.dislpayArrow a:hover{text-decoration:none;background-position:right 0}
+.dislpayArrow a.open:hover{background-position:right -61px}
+
+/* 右侧主界面 */
+.Hui-article{padding:15px 20px}
+.Hui-article .btn-area{min-height:30px;padding:5px;margin-top:0px;margin-bottom:10px;border-radius:3px;background-color:#d9edf7;border:1px solid #bce8f1;font-size:14px}
+.Hui-article table.dataTable th,
+.Hui-article table.dataTable td{font-size:14px}
+.Hui-article table.dataTable .fa{font-size:15px}
+
+/* 错误页-404 */
+.page-404{padding-top:60px;padding-bottom:90px;text-align:center;vertical-align:middle;color:#afb5bf}
+.page-404 .error-title{font-size:80px}
+.page-404 .error-title .fa{font-size:80px}
+.page-404 .error-description{font-size:24px}
+.page-404 .error-info{font-size:14px}
+
+
+/* 验证插件 JQuery Validate 错误提示样式 */
+input.error,select.error{background-color:#fbe2e2;border-color:#c66161;color:#c00}
+label.error{position:absolute;right:25px;top:8px;color:#ef392b;font-size:12px}
+.check-box label.error,
+.radio-box label.error{right:auto;width:150px;left:210px;top:-2px}
+
+/* 表格插件 DataTables */
+div.dataTables_wrapper div.dataTables_length,
+div.dataTables_wrapper div.dataTables_filter,
+div.dataTables_wrapper div.dataTables_info,
+div.dataTables_wrapper div.dataTables_paginate {
+  font-size: 14px;
+}
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > a,
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > span,
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > a:hover,
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > span:hover,
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > a:focus,
+div.dataTables_wrapper div.dataTables_paginate .pagination > .active > span:focus {
+  background-color: #5a98de;
+  border-color: #5a98de;
+}

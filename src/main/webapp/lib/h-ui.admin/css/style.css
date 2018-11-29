@@ -1,0 +1,99 @@
+@charset "utf-8";
+/* 你自己的样式 */
+
+
+.navtemp{ width:100%;height:85%; background:url(../../../resources/images/010.png);}
+
+.topleft{ width:40%; height:100%; overflow:hidden; float:left; line-height:80px; margin-left:0.5%; letter-spacing:3px;}
+.topleft span{ font-size:32px; color:#555; line-height:80px; display:inline-block}
+.topleft img:first-child{ width:65px;zoom:1; margin-right:10px;line-height:80px;}
+.topright{ width:auto; height:100%; overflow:hidden; float:right; text-align:right;}
+.toprightone{ width:auto; height:40px; clear:both; text-align:right; padding:10px 20px 0 0;letter-spacing:1px;margin-top:40px;}
+.toprightone span{ margin-left:10px;}
+
+.toprighttwo{ width:auto; height:40px; clear:both; margin-right:20px;}
+.toprighttwo img{ width:16px; zoom:1;}
+.toprighttwo li{ display:inline-block;}
+.toprighttwo li a{ display:inline-block; margin:0 10px 0 5px;}
+.toprighttwo li a:hover{ color:#0095e7}
+
+
+/* loding */
+.div01{
+	width:1115px; height:527px;
+	background:url(../../../resources/images/login1.jpg);
+	 
+	margin:auto;
+	margin-top:150px
+}
+.div02{
+	width:250px;height:50px;
+	
+	padding-top:215px;
+	padding-left:495px;
+	font-size:14px;
+	}
+	.div02 input{
+		width:150px;}
+.div03{text-align:right;
+height:28px}
+.div04{
+	background:url(../../../resources/images/1.jpg);
+	width:154px;
+	height:25px;
+	display:block;
+	text-align:center;
+	color:#FFF;text-decoration: none;
+	 box-shadow:0px 0 5px 0px
+	 #666;
+	 line-height:25px}
+.div04:hover{
+	background:#09C;}
+	
+/* 按钮样式 */
+.buttonoen{ width:50px; height:25px; border-radius:3px; box-shadow:0; border:0; cursor:pointer; color:#FFF; letter-spacing:1px; box-shadow:2px 2px 5px 0px #ccc}
+.buttontwo{ width:auto; height:auto; border-radius:3px; box-shadow:0; border:0; cursor:pointer; color:#FFF; letter-spacing:2px;padding:6px 30px 6px 30px;box-shadow:2px 2px 5px 0px #ccc}
+.buttonthree{ width:65px; height:25px; border-radius:3px; box-shadow:0; border:0; cursor:pointer; color:#FFF; letter-spacing:2px;box-shadow:2px 2px 5px 0px #ccc}
+.buttonfive{ width:auto; height:auto; border-radius:3px; box-shadow:0; border:0; cursor:pointer; color:#FFF; letter-spacing:2px; padding:2px 5px 2px 5px;box-shadow:2px 2px 5px 0px #ccc}
+/* 按钮颜色 */
+.btblue{background:#008dc5;}
+.btblue:hover{background:#00a4e5;}
+.btyellow{background:#c76200;}
+.btyellow:hover{background:#f27700;}
+.btgreen{background:#76b300;}
+.btgreen:hover{background:#88ce01;}
+.btred{background:#a50000;}
+.btred:hover{background:#d30000;}
+.btorange{background:#a69c00;}
+.btorange:hover{background:#cdc100;}
+.btpurple{background:#cb66ff;}
+.btpurple:hover{background:#d37fff;}
+.btredone{background:#ff6666;}
+.btredone:hover{background:#ff8484;}
+.btredgreen{background:#4cbf87;}
+.btredgreen:hover{background:#59d89a;}
+	
+.buttonsdiv{ width:auto; height:auto; margin:10px 0 10px 120px;}
+.buttonsdiv button{ margin-right:10px;}	
+
+/* tableform */
+.equipmenttable{width:100%; height:auto; margin:auto;border-bottom:#CCC 1px solid;}
+.equipmenttable td{ text-align:right; padding:10px 0 10px 0;}
+.equipmenttable td:first-child { width:100px;}
+.equipmenttable td input,select,textarea{ float:none;}
+.equipmenttable td select{ height:35px;}
+.equipmenttable td textarea{ height:50px;}
+.equipmenttable td span{ color:#F00; margin-right:2px;}
+
+.equipmenttable td .row{ text-align:left;}
+.equipmenttable td .row a{ margin-left:5px;}
+.tdmiddle{vertical-align:top;}
+.equipmenbody{width:90%; height:auto; overflow:hidden; clear:both; border:5px solid #eee; padding:2%;box-shadow:0 0 3px 3px #ccc; margin:auto;}
+.equipmenboder{ border-bottom:#CCC 1px solid; width:100%; height:auto; overflow:hidden; padding-bottom:15px;}
+.equipmenimg{vertical-align:top;text-align:center; width:400px;}
+.equipmenimg div{ width:100%; height:100%; text-align:center;}
+.equipmenimg img{width:300px; zoom:1; border:solid 2px #eee;}
+
+/* 左侧菜单图标颜色 */
+.icondiv{ font-size:26px; color:#000; float:left;}
+

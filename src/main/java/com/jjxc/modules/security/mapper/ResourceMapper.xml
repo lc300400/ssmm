@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.jjxc.modules.security.dao.ResourceDao" >   
+	<resultMap id="resourceResultMap" type="Resource">  
+        <id column="id" property="id" />  
+        <result column="type" property="type" />  
+        <result column="name" property="name" />  
+        <result column="url" property="url" />  
+        <result column="menuId" property="menuId" />  
+        <result column="icon" property="icon"/>  
+        <result column="description" property="description"/>  
+        <result column="seq" property="seq"/>  
+        <result column="pid" property="pid"/>  
+        <!-- 外键列关联的类型字段，使用association标签 -->
+		<!-- <association property="parent" column="pid" select="queryById" javaType="Resource" /> -->
+        
+        <collection property="children" column="id" select="findByParent" />
+    </resultMap>
+	<resultMap id="resource_authorityResultMap" type="Resource">  
+        <id column="id" property="id" />  
+        <result column="type" property="type" />  
+        <result column="name" property="name" />  
+        <result column="url" property="url" />  
+        <result column="menuId" property="menuId" />  
+        <result column="icon" property="icon"/>  
+        <result column="description" property="description"/>  
+        <result column="seq" property="seq"/>  
+        <result column="pid" property="pid"/>  
+        <!-- 外键列关联的类型字段，使用association标签 -->
+		<!-- <association property="parent" column="pid" select="queryById" javaType="Resource" /> -->
+        
+        <collection property="children" column="id" select="findByParent" />
+        
+        <collection property="authorityList" javaType="ArrayList"
+       		 ofType="com.jjxc.modules.security.entity.Authority">
+        	<id column="aid" property="id" jdbcType="INTEGER" />  
+	        <result column="aname" property="name" jdbcType="VARCHAR" />  
+	        <result column="adescription" property="description" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    
+    <resultMap type="Resource" id="findAResourceResultMap" extends="resourceResultMap">
+		<collection property="authorityList" javaType="ArrayList"
+			ofType="com.jjxc.modules.security.entity.Authority"  >
+			<id column="aid" property="id" jdbcType="INTEGER" />  
+	        <result column="aname" property="name" jdbcType="VARCHAR" />  
+	        <result column="adescription" property="description" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	
+	<!-- 根据AuthorityId查询资源 -->
+	<select id="findResourceByAuthorityId" resultMap="resourceResultMap">
+		select * from tsys_resource where id 
+		in (select resource_id from tsys_authority_resource where authority_id = #{id}) 
+		order by seq ASC
+	</select>
+    
+    <sql id="select_all_resource">  
+        select id, type, name, url , menuId,icon, description, seq, pid from tsys_resource r
+    </sql>  
+  	
+  	<select id="findByParent" resultMap="resourceResultMap" parameterType="java.lang.Integer">
+    	select * from tsys_resource r where pid = #{id} order by seq ASC
+    </select>
+  	
+	<!-- 查询所有资源信息 -->
+	<select id="queryAllResources" resultMap="resourceResultMap">
+		<include refid="select_all_resource" /> order by seq ASC
+	</select>
+	
+	<!-- 查询所有一级资源信息 -->
+	<select id="getFirstLevelMenu" resultMap="resourceResultMap">
+		<include refid="select_all_resource" /> 
+		<where>
+			r.pid is null 
+		</where>
+		order by r.seq ASC
+	</select>
+    
+    <!-- 根据ID查询资源 -->
+    <select id="queryById" resultMap="resourceResultMap">
+    	<include refid="select_all_resource" /> where r.id=#{id}
+    </select>
+
+	<!--  添加资源信息  -->
+	<insert id="insertResource">
+		insert into tsys_resource (type, name, url , menuId, icon, description, seq, pid) values 
+		(#{resource.type}, #{resource.name}, #{resource.url}, #{resource.menuId}, 
+		#{resource.icon}, #{resource.description}, #{resource.seq}, #{resource.pid});
+	</insert>
+	
+	<!--  删除资源信息  -->
+	<delete id="deleteResource">
+		DELETE FROM tsys_resource WHERE id=#{ id };
+	</delete>
+
+	<!-- 修改资源信息 -->
+	<update id="updateResource">
+		update tsys_resource 
+			<set>
+				<if test="resource.type != null">type = #{resource.type},</if> 			
+				<if test="resource.name != null">name= #{resource.name},</if>
+				url = #{ resource.url }, 
+				menuId = #{ resource.menuId }, 
+				icon = #{ resource.icon }, 
+				description = #{ resource.description }, 
+				seq = #{ resource.seq }, 
+				pid = #{ resource.pid }
+			</set>
+		where id = #{resource.id}
+	</update>
+
+	<!-- 查询同级资源的最大显示顺序  -->
+	<select id="getMaxSeq" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		<if test="id != null" >    
+        	select max(r.seq) from tsys_resource r where r.pid = #{id,jdbcType=INTEGER}
+        </if> 
+		<if test="id == null" >    
+            select max(r.seq) from tsys_resource r where r.pid is null
+        </if> 
+	</select>
+	
+	<!-- 根据ResourceId删除资源-权限关系数据 -->
+	<delete id="deleteRourceAuthorityByResourceId">
+		DELETE FROM tsys_authority_resource WHERE resource_id=#{ id }
+	</delete>
+	
+	<select id="findResourceAuthorityListByResourceId" 
+								resultMap="resource_authorityResultMap">
+		select r.id, r.type, r.name, r.url , r.menuId, r.icon, r.description, r.seq, r.pid, 
+		a.id aid,a.name aname,a.description adescription 
+		from tsys_resource r 
+        left join tsys_authority_resource tar on r.id=tar.resource_id  
+        left join tsys_authority a on a.id=tar.authority_id  
+        where r.id = #{id}
+	</select> 
+	
+	<!-- 查询没有下级的一级资源,同时关联资源的权限信息 -->
+	<select id="getFirstLevelResource" 
+								resultMap="resource_authorityResultMap">
+		select r.id, r.type, r.name, r.url , r.menuId, r.icon, r.description, r.seq, r.pid, 
+		a.id aid,a.name aname,a.description adescription 
+		from tsys_resource r 
+        left join tsys_authority_resource tar on r.id=tar.resource_id  
+        left join tsys_authority a on a.id=tar.authority_id  
+        where r.pid is null order by r.seq ASC
+	</select>
+	
+</mapper>

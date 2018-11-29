@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.jjxc.modules.security.dao.DeptDao" > 
+    
+    <resultMap id="BaseResultMaps" type="dept">  
+        <result column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="number" property="number" jdbcType="VARCHAR" />  
+        <result column="type" property="type" jdbcType="INTEGER" />  
+        <result column="description" property="description" jdbcType="VARCHAR" />  
+        <result column="linkman" property="linkman" jdbcType="VARCHAR" />  
+        <result column="tel" property="tel" jdbcType="VARCHAR" />  
+        <result column="seq" property="seq" jdbcType="INTEGER" />
+        <association property="parent" column="pid" select="queryById" javaType="dept"/> 
+        <!-- 递归查询 -->
+        <collection property="children" ofType="dept" 
+         	column="id" select="findByParent"></collection>	
+    </resultMap> 
+    
+    <select id="findByParent" resultMap="BaseResultMaps" parameterType="java.lang.Integer">
+    	select * from tsys_dept where pid = #{id} order by seq asc
+    </select> 
+  	
+    <!-- 根据ID查询部门信息-->  
+    <select id="queryById" resultMap="BaseResultMaps"  
+        parameterType="java.lang.Integer"> 
+        	select * from tsys_dept where id = #{id,jdbcType=INTEGER} order by seq asc
+    </select>
+    
+	<!-- 查询没有上级部门的一级部门  -->
+	<select id="findFirstLevel" resultMap="BaseResultMaps">
+		select * from tsys_dept where pid is null order by seq asc
+	</select>
+	
+	<!-- 查询同级机构的最大机构编码  -->
+	<select id="getMaxNumber" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		<if test="id != null" >    
+        	select max(dept.number) from tsys_dept dept where dept.pid = #{id,jdbcType=INTEGER}
+        </if> 
+		<if test="id == null" >    
+            select max(dept.number) from tsys_dept dept where dept.pid is null
+        </if> 
+	</select>
+	
+	<!-- 查询同级机构的最大显示顺序  -->
+	<select id="getMaxSeq" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		<if test="id != null" >    
+        	select max(dept.seq) from tsys_dept dept where dept.pid = #{id,jdbcType=INTEGER}
+        </if>
+		<if test="id == null" >
+            select max(dept.seq) from tsys_dept dept where dept.pid is null
+        </if>
+	</select>
+	
+	<!-- 插入部门信息  -->
+	<insert id="insertDept" parameterType="dept" useGeneratedKeys="true"
+		keyProperty="id">
+		
+		insert into tsys_dept
+		(name,number,type,description,linkman,tel,seq,pid)
+		values
+		(
+			#{name,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR},#{type,jdbcType=INTEGER},#{description,jdbcType=VARCHAR},
+		 	#{linkman,jdbcType=VARCHAR},#{tel,jdbcType=VARCHAR},#{seq,jdbcType=INTEGER},#{parent.id,jdbcType=INTEGER}
+		 )
+	</insert>
+	
+	<!-- 修改部门信息 -->  
+	<update id="updateDept" parameterType="dept">
+		update tsys_dept    
+        <set>    
+          <if test="name != null" >    
+            name = #{name,jdbcType=VARCHAR},    
+          </if>    
+          <if test="description != null" >    
+            description = #{description,jdbcType=VARCHAR},    
+          </if>    
+          <if test="linkman != null" >    
+            linkman = #{linkman,jdbcType=VARCHAR},    
+          </if>    
+          <if test="tel != null" >    
+            tel = #{tel,jdbcType=VARCHAR},    
+          </if>    
+          <if test="seq != null" >    
+            seq = #{seq,jdbcType=INTEGER},    
+          </if>    
+        </set>    
+        where id = #{id,jdbcType=INTEGER}   
+	</update>
+	
+	<!-- 删除部门信息 -->  
+    <delete id="deleteDept" parameterType="java.lang.Integer">  
+        delete from tsys_dept  
+        where id = #{id,jdbcType=INTEGER}    
+    </delete>
+
+
+    
+</mapper>
