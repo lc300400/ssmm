@@ -84,7 +84,6 @@ public class MyShiroRealm extends AuthorizingRealm{
             if(null != session){
                 session.setAttribute(key, value);
             }
-            
         }
     }
 }
