@@ -1,11 +1,10 @@
 package com.jjxc.modules.security.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.jjxc.commons.Page;
 import com.jjxc.modules.security.entity.Role;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RoleDao {
 	
@@ -24,7 +23,7 @@ public interface RoleDao {
     //分页查询角色
 	List<Role> findPage(Page<Role> page);
 
-	//跟姐名字查询角色
+	//根据名字查询角色
 	List<Role> queryByName(@Param("name") String name);
 
 	//根据ID删除角色

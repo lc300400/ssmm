@@ -21,7 +21,7 @@ public class User  {
 	private String enable;    // 用户状态(0--禁用、1--启用)
 	private Dept dept;        // 用户部门
 
-	private List<Role> roleList = new ArrayList<Role>();
+	private List<Role> roleList = new ArrayList<>();
 
     public User() {}
 

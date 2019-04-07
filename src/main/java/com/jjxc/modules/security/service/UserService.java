@@ -29,15 +29,15 @@ public class UserService{
     private UserDao userDao;  
     @Resource  
     private ParameterDao parameterDao;  
-      
+
     public User getUserById(Integer userId) {  
         return userDao.queryById(userId);  
     }  
 
 	public User getUserByUsername(String username) {
 		return userDao.queryByUsername(username);
-	}  
-	
+	}
+
 	/**
 	 * 保存、修改用户信息
 	 * @param user

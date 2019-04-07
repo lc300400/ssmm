@@ -19,7 +19,7 @@ public class ProxyHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object result = null;
+        Object result;
         //这里就可以进行所谓的AOP编程了
         //在调用具体函数方法前，执行功能处理
         System.out.println("函数方法执行前~~~~~~~~~~~");
@@ -29,4 +29,15 @@ public class ProxyHandler implements InvocationHandler {
         //在调用具体函数方法后，执行功能处理
         return result;
     }
+
+    public static void main(String[] args) {
+        System.out.println("1231");
+        System.out.println("124534231");
+
+        System.out.println("14321");
+        System.out.println("134123");
+
+        System.out.println("1234123");
+    }
+
 }

@@ -12,7 +12,7 @@
 	<i class="Hui-iconfont">&#xe67f;</i>
 	 首页 <span class="c-gray en">&gt;</span> 
 	 系统管理 <span class="c-gray en">&gt;</span>
-	 部门管理 <a class="btn radius r defaultColor" 
+	 部门管理 <a class="btn radius r defaultColor"
 	 style="line-height:1.6em;margin-top:3px;" 
 	 href="javascript:location.replace(location.href);" title="刷新" >
 	<i class="Hui-iconfont">&#xe68f;</i></a>
@@ -23,7 +23,8 @@
 	<!-- 用户操作区域 -->
 	<div class="cl pd-5 bg-1 bk-gray">
 	 	<span class="l"><a href="javascript:;" onclick="addFun()" class="btn defaultColor">
-	 	<i class="Hui-iconfont">&#xe600;</i> 新增部门</a> 
+	 	<i class="Hui-iconfont">&#xe600;</i> 新增部门</a>
+		</span>
 	</div>
 	<!-- /用户操作区域 -->
 	<!-- 数据展示区域 -->

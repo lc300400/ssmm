@@ -5,7 +5,6 @@
 	<jsp:include page="/common/meta.jsp"/>
 </head>
 <body>
-	<jsp:include page="/common/header.jsp"/>
 	<jsp:include page="/common/menu.jsp"/>
 
 	<section class="Hui-article-box">

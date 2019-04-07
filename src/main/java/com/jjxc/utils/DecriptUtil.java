@@ -1,17 +1,12 @@
 package com.jjxc.utils;
 
+import javax.crypto.*;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 public class DecriptUtil {
 
@@ -94,7 +89,7 @@ public class DecriptUtil {
             MessageDigest digest = MessageDigest
                     .getInstance("SHA-1"); //如果是SHA加密只需要将"SHA-1"改成"SHA"即可
             digest.update(str.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
             // Create Hex String
             StringBuffer hexStr = new StringBuffer();
             // 字节数组转换为 十六进制 数
