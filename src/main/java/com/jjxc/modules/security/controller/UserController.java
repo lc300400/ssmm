@@ -1,22 +1,6 @@
 package com.jjxc.modules.security.controller;
   
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;  
-import java.util.Map;
-import javax.annotation.Resource;  
-import javax.servlet.http.HttpServletRequest;  
-import org.apache.shiro.SecurityUtils;
-import org.springframework.stereotype.Controller;  
-import org.springframework.ui.Model;  
-import org.springframework.web.bind.annotation.RequestMapping;  
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.jjxc.commons.DataGrid;
-import com.jjxc.commons.Json;
-import com.jjxc.commons.Page;
-import com.jjxc.commons.PageFrom;
-import com.jjxc.commons.ReflectionUtils;
-import com.jjxc.commons.ServiceException;
+import com.jjxc.commons.*;
 import com.jjxc.modules.security.entity.Dept;
 import com.jjxc.modules.security.entity.Parameter;
 import com.jjxc.modules.security.entity.User;
@@ -24,6 +8,18 @@ import com.jjxc.modules.security.service.ParameterService;
 import com.jjxc.modules.security.service.RoleService;
 import com.jjxc.modules.security.service.UserService;
 import com.jjxc.utils.Struts2Utils;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
   
 @Controller  
@@ -43,7 +39,7 @@ public class UserController extends PageFrom<User>{
 	@RequestMapping("/input")
     public String toInput(HttpServletRequest request,Model model){
     	User user = null;
-    	List<Integer> checkedRoleIds = new ArrayList<>();;//页面中钩选的角色id列表
+    	List<Integer> checkedRoleIds = new ArrayList<>();//页面中钩选的角色id列表
     	String userId = request.getParameter("id");
     	if(!"".equals(userId) && userId !=null){
     		user = userService.getUserById(Integer.parseInt(userId));
@@ -88,7 +84,7 @@ public class UserController extends PageFrom<User>{
     
     //查询用户个人信息
     @RequestMapping("/getPersonalInfo")
-    public String getPersonalInfo(HttpServletRequest request,Model model){
+    public String getPersonalInfo(Model model){
     	String currentUsername= (String) SecurityUtils.getSubject().getPrincipal();
     	User user = userService.getUserByUsername(currentUsername);
         model.addAttribute("user", user);  
@@ -98,7 +94,7 @@ public class UserController extends PageFrom<User>{
     //用户密码修改
     @RequestMapping("/updatePwd")
     @ResponseBody
-    public void updatePwd(HttpServletRequest request,Model model){
+    public void updatePwd(HttpServletRequest request){
 		Json json = new Json();
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
@@ -122,8 +118,8 @@ public class UserController extends PageFrom<User>{
     //根据部门查询用户信息
     @RequestMapping("/listByDept")
     @ResponseBody
-    public void list(HttpServletRequest request,Model model) {
-		// EasyUI Datagrid数据
+    public void list(HttpServletRequest request) {
+		// EasyUI dataGrid数据
 		Page<User> page = getPageFromEasyUI(request);
 		page.setOrderBy("id");
 		page.setOrder(Page.DESC);
@@ -132,7 +128,7 @@ public class UserController extends PageFrom<User>{
 		String username = request.getParameter("username");
 		String enable = request.getParameter("enable");
 		//设置条件过滤
-		Map<String ,Object> map = new HashMap<String, Object>();
+		Map<String ,Object> map = new HashMap<>();
 		if(!"".equals(username) && username !=null){
 			map.put("username", username);
 		}
@@ -140,7 +136,7 @@ public class UserController extends PageFrom<User>{
 			map.put("enable", enable);
 		}
 		if (!"".equals(branchNO) && branchNO !=null) {
-			if(children !=null && "all".equals(children)) {
+			if("all".equals(children)) {
 				int length = branchNO.length();
 				while (branchNO.endsWith("000")) {
 					length -= 3;
@@ -153,9 +149,6 @@ public class UserController extends PageFrom<User>{
 				map.put("all", "no");//是否查询下级-否
 			}
 			map.put("branchNO", branchNO);
-		}else{
-			User user = userService.getCurrentUser();
-			branchNO = user.getDept().getNumber();
 		}
 		page.setParams(map);
 	    List<User> userL = userService.findPage(page);
